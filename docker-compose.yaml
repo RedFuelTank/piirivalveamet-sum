@@ -1,0 +1,27 @@
+version: '3'
+services:
+  db-postgres:
+    image: "postgres:11.5-alpine"
+    container_name: "piirivalveamet-postgres"
+    volumes:
+      - piirivalveamet-log-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_DB:postgres
+      - POSTGRES_USER:postgres
+      - POSTGRES_PASSWORD:postgres
+  back-end:
+    build: ./backend
+    container_name: "piirivalveamet-backend"
+    environment:
+      - DB_SERVER=piirivalveamet-postgres
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db-postgres
+volumes:
+  piirivalveamet-log-data:
