@@ -30,6 +30,6 @@ If containers should be deleted, use Docker Compose command:
 
 # Entry points
 
-[Swagger-UI](http://localhost:8080/api/swagger-ui/index.html) (The application should be run)
+[Swagger-UI](http://localhost:8080/swagger-ui/index.html) (The application should be run)
 
 ![swagger-ui.png](assets/swagger-ui.png)
