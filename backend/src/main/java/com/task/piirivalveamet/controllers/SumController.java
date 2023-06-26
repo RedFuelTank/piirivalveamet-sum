@@ -8,13 +8,13 @@ import jakarta.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.SortDefault;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
@@ -30,12 +30,13 @@ public class SumController {
   }
 
   @GetMapping("/search/{number}")
-  Page<SumModel> searchBy(@PathVariable @Min(0) @Max(100) Optional<Integer> number,
-                          Pageable pageable) {
-    if (number.isPresent()) {
-      return searchService.searchSum(number.get(), pageable);
-    }
+  Page<SumModel> searchBy(@PathVariable @Min(0) @Max(100) Integer number,
+                          @SortDefault(sort = "sum", direction = Sort.Direction.DESC) Pageable pageable) {
+    return searchService.searchSum(number, pageable);
+  }
 
+  @GetMapping("/search")
+  Page<SumModel> findAll(@SortDefault(sort = "sum", direction = Sort.Direction.DESC) Pageable pageable) {
     return searchService.findAll(pageable);
   }
 }
